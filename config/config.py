@@ -1,6 +1,8 @@
 from environs import Env
 from dataclasses import dataclass
 
+
+# Настройка бота.
 @dataclass
 class Tgbot:
     token: str

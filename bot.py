@@ -4,6 +4,7 @@ from handlers import userhandler
 from config.config import load_config
 
 
+# Запуск и конфигурация бота
 async def main():
     config = load_config()
     bot = Bot(token=config.tg_bot.token)
