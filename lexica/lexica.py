@@ -2,5 +2,5 @@ START ='Hi, book reader as a telegram-bot you will think completly insane. But h
 HELP = 'You have a several books to choose, to do this send /shelve and then press a button with needed book. \n "<<" and ">>" will help you to move in book.'
 Bookshelve = """
 И. Тургенев Му-Му
-А. Солженицын Матренин двор
+А. Чехов Вишневый сад
 """

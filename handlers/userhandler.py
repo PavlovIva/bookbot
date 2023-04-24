@@ -4,26 +4,33 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQu
 from lexica.lexica import START, HELP, Bookshelve
 
 
+
+def page(path: str) -> str:
+    f = open(path)
+    return f'{len(f.read()) // 500}'
+
+
 # Создание переменных и присвоение им значений
 router = Router()
-bookk = []
+reading_book: str
 forward = InlineKeyboardButton(text='>>', callback_data='forward')
-pages = InlineKeyboardButton(text=':)')
+pagess = InlineKeyboardButton(text=page('MU-MU.txt'), callback_data='yes')
 back = InlineKeyboardButton(text='<<', callback_data='back')
-mu_mu = InlineKeyboardButton(text='Mу-МУ', callback_data='mu-mu')
-matrena = InlineKeyboardButton(text='Матренин двор', callback_data='matrena')
-moving_keyboard = InlineKeyboardMarkup(inline_keyboard=[[forward], [pages], [back]])
-books_keyboard = InlineKeyboardMarkup(inline_keyboard=[[mu_mu], [matrena]])
+mu_mu = InlineKeyboardButton(text='Mу-МУ', callback_data='MU-MU.txt')
+garden = InlineKeyboardButton(text='Матренин двор', callback_data='GARDEN.txt')
+books_keyboard = InlineKeyboardMarkup(inline_keyboard=[[mu_mu], [garden]])
+moving_keyboard = InlineKeyboardMarkup(inline_keyboard=[[forward], [pagess], [back]])
 
 state = {
-    'x': 250
+    'x': 0,
+    'y': 500
 }
 
 
-def book():
-    f = open('MU-MU.txt')
-    ff = f
-    return ff.read(250)
+def book(path: str):
+    with open(path) as f:
+        pg = f.read()
+        return pg[state['x']:state['y']]
 
 
 # Реакция на "старт"
@@ -44,10 +51,22 @@ async def shelve(msg: types.Message):
     await msg.reply(Bookshelve, reply_markup=books_keyboard)
 
 
-# Реакция на "вперед
-@router.callback_query(Text(text=['forward']))
+@router.callback_query(Text(text='forward'))
 async def forward(callback: CallbackQuery):
-    await callback.message.edit_text(book(), reply_markup=moving_keyboard)
+    state['x'] += 500
+    state['y'] += 500
+    await callback.message.edit_text(f'{book(reading_book)}', reply_markup=moving_keyboard)
 
 
+@router.callback_query(Text(text='back'))
+async def back(callback: CallbackQuery):
+    state['x'] -= 500
+    state['y'] -= 500
+    await callback.message.edit_text(f'{reading_book}', reply_markup=moving_keyboard)
 
+
+@router.callback_query()
+async def mu_mu(callback: CallbackQuery):
+    await callback.message.edit_text(f'{book(callback.data)}', reply_markup=moving_keyboard)
+    global reading_book
+    reading_book = callback.data
