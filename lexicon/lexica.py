@@ -1,0 +1,1 @@
+help_msg: str = '''Sent me book as txt-file to use me'''

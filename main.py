@@ -4,8 +4,6 @@ from config.config import Config, load_config
 import handlers.user_handlers
 
 
-
-
 async def main() -> None:
     config: Config = load_config()
 
