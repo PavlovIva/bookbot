@@ -1,12 +1,30 @@
-from aiogram import Router
+from aiogram import Router, F, Bot
 from aiogram.types import Message
-from aiogram.filters import CommandStart
+from aiogram.filters import Command
+from config.config import Config, load_config
+from funcs.work_with_book import read_the_book
 
 
+config = load_config()
+
+bot = Bot(token=config.tg_bot.token)
 router = Router()
 
 
-
-@router.message(CommandStart)
-async def prosecc_start(msg: Message):
+@router.message(Command(commands='start'))
+async def process_start(msg: Message):
     await msg.reply('Still working on...')
+
+
+@router.message(F.document)
+async def photo_or_doc_handler(msg: Message):
+    print(msg.document)
+    file = await bot.get_file(msg.document.file_id)
+    file_path = file.file_path
+    await bot.download_file(file_path, msg.document.file_name)
+    read_the_book(msg.document.file_name)
+
+
+@router.message()
+async def wrong_move(msg: Message):
+    await msg.answer('Wrong!!')
