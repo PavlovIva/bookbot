@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from lexicon.lexica import menu_buttons
+from lexicon import menu_buttons
 
 
 buttons: list[InlineKeyboardButton] = []

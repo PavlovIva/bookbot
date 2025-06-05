@@ -1,11 +1,11 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import Command
-from funcs.work_with_book import read_the_book, download_book
-from funcs.filtres import FormatFile
-from lexicon.lexica import help_msg
-from keyboards.keyboard_book import book_keyboard
-from keyboards.menu import  menu_board
+from funcs import read_the_book, download_book
+from funcs import FormatFile
+from lexicon import help_msg
+from keyboards import book_keyboard, menu_board
+
 
 
 router = Router()
