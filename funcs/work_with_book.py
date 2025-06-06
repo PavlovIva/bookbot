@@ -13,13 +13,14 @@ async def download_book(msg: Message) -> None:
 
 
 
-def read_the_book(file_name: str) -> str:
+def scan_the_book(file_name: str) -> str:
     try:
         with open('books/' + file_name, encoding='windows-1251') as f:
-            return f.read(1000)
+            return f.read()
     except UnicodeDecodeError:
             with (open('books/' + file_name, encoding='UTF-8')) as f:
-                return f.read(1000)
+                return f.read()
 
 
-
+def read_the_book(book_itself):
+    return book_itself[:1000]
